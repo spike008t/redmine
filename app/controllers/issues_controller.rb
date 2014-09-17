@@ -471,10 +471,10 @@ class IssuesController < ApplicationController
         time_entry.user = User.current
         time_entry.spent_on = User.current.today
         time_entry.attributes = params[:time_entry]
-        @issue.time_entries << time_entry
       end
 
       call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
+      @issue.time_entries << time_entry if time_entry
       if @issue.save
         call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
       else
